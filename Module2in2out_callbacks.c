@@ -10,44 +10,9 @@
 
 
 
-/** @brief Main Init
- *
- * This function is called from the application's main function. It gives the
- * application a chance to do any initialization required at system startup. Any
- * code that you would normally put into the top of the application's main()
- * routine should be put into this function. This is called before the clusters,
- * plugins, and the network are initialized so some functionality is not yet
- * available.
-        Note: No callback in the Application Framework is
- * associated with resource cleanup. If you are implementing your application on
- * a Unix host where resource cleanup is a consideration, we expect that you
- * will use the standard Posix system calls, including the use of atexit() and
- * handlers for signals such as SIGTERM, SIGINT, SIGCHLD, SIGPIPE and so on. If
- * you use the signal() function to register your signal handler, please mind
- * the returned value which may be an Application Framework function. If the
- * return value is non-null, please make sure that you call the returned
- * function from your handler to avoid negating the resource cleanup of the
- * Application Framework itself.
- *
- */
-void emberAfMainInitCallback(void)
-{
-}
 
-/** @brief Stack Status
- *
- * This function is called by the application framework from the stack status
- * handler.  This callbacks provides applications an opportunity to be notified
- * of changes to the stack status and take appropriate action.  The return code
- * from this callback is ignored by the framework.  The framework will always
- * process the stack status after the callback returns.
- *
- * @param status   Ver.: always
- */
-boolean emberAfStackStatusCallback(EmberStatus status)
-{
-  return false;
-}
+
+
 
 /** @brief On/off Cluster Server Attribute Changed
  *
@@ -98,34 +63,6 @@ void emberAfPluginNetworkSteeringCompleteCallback(EmberStatus status,
                      status);
   emberAfCorePrintln("Finishing state: 0x%X", finalState);
   emberAfCorePrintln("Beacons heard: %d\nJoin Attempts: %d", totalBeacons, joinAttempts);
-}
-
-/** @brief Pre Message Received
- *
- * This callback is the first in the Application Framework's message processing
- * chain. The Application Framework calls it when a message has been received
- * over the air but has not yet been parsed by the ZCL command-handling code. If
- * you wish to parse some messages that are completely outside the ZCL
- * specification or are not handled by the Application Framework's command
- * handling code, you should intercept them for parsing in this callback. 
-     
- *   This callback returns a Boolean value indicating whether or not the message
- * has been handled. If the callback returns a value of true, then the
- * Application Framework assumes that the message has been handled and it does
- * nothing else with it. If the callback returns a value of false, then the
- * application framework continues to process the message as it would with any
- * incoming message.
-        Note: 	This callback receives a pointer to an
- * incoming message struct. This struct allows the application framework to
- * provide a unified interface between both Host devices, which receive their
- * message through the ezspIncomingMessageHandler, and SoC devices, which
- * receive their message through emberIncomingMessageHandler.
- *
- * @param incomingMessage   Ver.: always
- */
-boolean emberAfPreMessageReceivedCallback(EmberAfIncomingMessage* incomingMessage)
-{
-  return false;
 }
 
 

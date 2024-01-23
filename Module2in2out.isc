@@ -434,6 +434,7 @@ callbacks:emberAfPluginOnOffClusterServerPostInitCallback
 callbacks:emberAfPluginNetworkSteeringCompleteCallback
 callbacks:emberAfPluginNetworkCreatorCompleteCallback
 callbacks:emberAfPreMessageReceivedCallback
+callbacks:emberAfPreCommandReceivedCallback
 }
 {setupId:zclCustomizer
 }
