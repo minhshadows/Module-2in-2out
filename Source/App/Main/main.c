@@ -6,13 +6,6 @@
  */
 #include "Source/App/Main/main.h"
 
-EmberEventControl LightEventControl;
-
-void userButton_PressAndHoldEventHandle(uint8_t button, uint8_t pressAndHoldEvent);
-void userButton_HoldingEventHandle(uint8_t button, BUTTON_Event_t holdingEvent);
-
-
-
 /** @brief Main Init
  *
  * This function is called from the application's main function. It gives the
@@ -37,12 +30,13 @@ void emberAfMainInitCallback(void)
 {
 	emberAfCorePrintln("Main Init!!!");
 	ledInit();
-	adc_Initt();
 	buttonInit(userButton_HoldingEventHandle,userButton_PressAndHoldEventHandle);
-	networkInit(userNETWORK_EventHandle);
+//	networkInit(userNETWORK_EventHandle);
+//	turnOnLed(LED1,ledGreen);
+	GPIO_PinOutSet(gpioPortD,3U);
 	systemState = POWER_ON_STATE;
-	emberEventControlSetActive(mainStateEventControl);
-	emberEventControlSetActive(LightEventControl);
+//	emberEventControlSetActive(mainStateEventControl);
+//	emberEventControlSetActive(LightEventControl);
 }
 
 /**
@@ -86,101 +80,4 @@ void mainStateEventHandle()
 	default:
 		break;
 	}
-}
-
-/**
- * @func	userButton_PressAndHoldEventHandle
- *
- * @brief	button press and hold handle
- *
- * @param	[button]
- *
- * @param	[pressAndHoldEvent]
- *
- * @retval	none
- */
-void userButton_PressAndHoldEventHandle(uint8_t button, uint8_t pressAndHoldEvent)
-{
-	if (button == SW_1) // for endpoint 1
-	{
-		switch(pressAndHoldEvent)
-		{
-		case press_1:
-			turnOnLed(LED1,ledBlue);
-			SEND_OnOffStateReport(1,LED_ON);
-			break;
-		case press_2:
-			turnOffRBGLed(LED1);
-			SEND_OnOffStateReport(1,LED_OFF);
-			break;
-		case press_3:// target find
-			(void) emberAfPluginFindAndBindTargetStart(1);
-			break;
-		case press_4:// initiator find
-			(void) emberAfPluginFindAndBindInitiatorStart(1);
-			break;
-		case press_5:
-			NETWORK_Leave();
-			break;
-		case unknown:
-			break;
-		default:
-			break;
-		}
-	}else if(button == SW_2) // for endpoint 2
-	{
-		switch(pressAndHoldEvent)
-		{
-		case press_1:
-			turnOnLed(LED2,ledBlue);
-			SEND_OnOffStateReport(2,LED_ON);
-			break;
-		case press_2:
-			turnOffRBGLed(LED2);
-			SEND_OnOffStateReport(2,LED_OFF);
-			break;
-		case press_3:
-			break;
-		case press_4:
-			break;
-		case press_5:
-			break;
-		case unknown:
-			break;
-		default:
-			break;
-		}
-	}
-}
-
-/**
- * @func	userButton_HoldingEventHandle
- *
- * @brief	button hold handle
- *
- * @param	[button]
- *
- * @param	[holdingEvent]
- *
- * @retval	none
- */
-void userButton_HoldingEventHandle(uint8_t button, BUTTON_Event_t holdingEvent)
-{
-
-}
-
-/**
- * @func	LightEventHandler
- *
- * @brief	handle of light event
- *
- * @param	[none]
- *
- * @retval	none
- */
-void LightEventHandler ()
-{
-	emberEventControlSetInactive(LightEventControl);
-	CalculateLux();
-	emberEventControlSetDelayMS(LightEventControl,5000);
 }

@@ -1,13 +1,5 @@
 /*******************************************************************************
- *
- * Description: Lab1
- * Project name: button.c
- *
- *
- * Last Changed By:  $Author: TrungNT $
- * Revision:         $Revision: 1.0 $
- * Last Changed:     $Date: 23/2/2021 $
- *
+
  ******************************************************************************/
 #include "app/framework/include/af.h"
 #include "button.h"
@@ -210,3 +202,67 @@ static uint8_t getButtonIndex(uint8_t pin)
 	}
 	return -1;
 }
+
+/**
+ * @func	userButton_PressAndHoldEventHandle
+ *
+ * @brief	button press and hold handle
+ *
+ * @param	[button]
+ *
+ * @param	[pressAndHoldEvent]
+ *
+ * @retval	none
+ */
+void userButton_PressAndHoldEventHandle(uint8_t button, uint8_t pressAndHoldEvent)
+{
+	if (button == SW_1) // for endpoint 1
+	{
+		switch(pressAndHoldEvent)
+		{
+		case press_1:
+			emberAfCorePrintln("press_1!!!");
+//			turnOnLed(LED1,ledBlue);
+//			SEND_OnOffStateReport(1,LED_ON);
+			break;
+		case press_2:
+			emberAfCorePrintln("press_2!!!");
+//			turnOffRBGLed(LED1);
+//			SEND_OnOffStateReport(1,LED_OFF);
+			break;
+		case press_3:// target find
+			emberAfCorePrintln("press_3!!!");
+//			(void) emberAfPluginFindAndBindTargetStart(1);
+			break;
+		case press_4:// initiator find
+			emberAfCorePrintln("press_4!!!");
+//			(void) emberAfPluginFindAndBindInitiatorStart(1);
+			break;
+		case press_5:
+			emberAfCorePrintln("press_5!!!");
+//			NETWORK_Leave();
+			break;
+		case unknown:
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+/**
+ * @func	userButton_HoldingEventHandle
+ *
+ * @brief	button hold handle
+ *
+ * @param	[button]
+ *
+ * @param	[holdingEvent]
+ *
+ * @retval	none
+ */
+void userButton_HoldingEventHandle(uint8_t button, BUTTON_Event_t holdingEvent)
+{
+
+}
+

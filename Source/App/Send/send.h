@@ -13,11 +13,9 @@
 #include "Source/App/Network/network.h"
 #include "Source/App/Receive/received.h"
 #include "Source/App/Main/main.h"
-#include "Source/Hard/Pir/pir.h"
 
 void SEND_ReportInfoToHc();
 void SEND_OnOffStateReport(uint8_t endpoint, ledOnOffState_e state);
-void SEND_PirStateReport(uint8_t endpoint,pirAction_e pirAction);
 void SEND_measuredValueReport(uint8_t endpoint,uint16_t value);
 void SEND_CommanBinding(uint8_t cmdID, uint8_t indexTable);
 

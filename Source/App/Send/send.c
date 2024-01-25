@@ -68,8 +68,8 @@ void SEND_CommanBinding(uint8_t cmdID, uint8_t indexTable)
 void SEND_ReportInfoToHc()
 {
 	uint8_t modelID[8] = {7, 'S', 'W', '2','_','L','M','1'};
-	uint8_t manufactureID[5] = {4, 'L', 'u', 'm', 'i'};
-	uint8_t version = 1;
+//	uint8_t manufactureID[5] = {4, 'L', 'u', 'm', 'i'};
+//	uint8_t version = 1;
 	uint16_t addressHC = 0x0000;//emberGetParentId();
 	emberAfCorePrintln("Report!!!");
 	if(emberAfNetworkState() != EMBER_JOINED_NETWORK)
@@ -116,36 +116,6 @@ void SEND_OnOffStateReport(uint8_t endpoint, ledOnOffState_e state)
 
 }
 
-/**
- * @func	SEND_PirStateReport
- *
- * @brief	Send state PIR to HC
- *
- * @param	[endpoint]:
- *
- * @param	[pirAction]: Unmotion or Motion
- *
- * @retval	none
- */
-void SEND_PirStateReport(uint8_t endpoint,pirAction_e pirAction)
-{
-	uint16_t address = 0x0000;
-	emberAfCorePrintln("Report!!!");
-	if(emberAfNetworkState() != EMBER_JOINED_NETWORK)
-	{
-		return;
-	}
-	emberAfWriteServerAttribute(endpoint,
-								ZCL_IAS_ZONE_CLUSTER_ID,
-								ZCL_ZONE_STATE_ATTRIBUTE_ID,
-								(uint8_t*) &pirAction,
-								ZCL_INT8U_ATTRIBUTE_TYPE);
-	SEND_FillBufferGlobalComman(ZCL_IAS_ZONE_CLUSTER_ID,ZCL_ZONE_STATUS_ATTRIBUTE_ID,ZCL_READ_ATTRIBUTES_RESPONSE_COMMAND_ID,&pirAction,1,ZCL_INT8U_ATTRIBUTE_TYPE);
-
-	SEND_SendCommandUnicast(endpoint,1,address);
-
-
-}
 
 /**
  * @func	SEND_measuredValueReport

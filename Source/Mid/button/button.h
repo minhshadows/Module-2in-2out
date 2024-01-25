@@ -13,7 +13,7 @@
 #include "em_gpio.h"
 #include "gpiointerrupt.h"
 
-#define BUTTON_COUNT					2
+#define BUTTON_COUNT					1
 #define GPIO_DOUT						0
 #define BUTTON_DEBOUNCE					5
 #define BUTTON_CHECK_HOLD_CYCLES_MS		200
@@ -22,13 +22,10 @@
 #define HOLD_TIME_MIN					5
 
 
-#define BUTTON_1_PORT				gpioPortD
-#define BUTTON_1_PIN				(4U)
+#define BUTTON_1_PORT				gpioPortC
+#define BUTTON_1_PIN				(1U)
 
-#define BUTTON_2_PORT				gpioPortD
-#define BUTTON_2_PIN				(3U)
-
-#define BUTTON_INIT					{{BUTTON_1_PORT,BUTTON_1_PIN},{BUTTON_2_PORT,BUTTON_2_PIN}}
+#define BUTTON_INIT					{{BUTTON_1_PORT,BUTTON_1_PIN}}
 
 
 
@@ -77,6 +74,9 @@ typedef void (*BUTTON_holdingEvent_t)(uint8_t btIndex, BUTTON_Event_t holdEven )
 typedef void (*BUTTON_pressAndHoldEvent_t)(uint8_t btIndex, BUTTON_Event_t pressAndHoldevent);
 
 void buttonInit(BUTTON_holdingEvent_t holdingHandle,BUTTON_pressAndHoldEvent_t pressAndHoldeHandler);
+
+void userButton_PressAndHoldEventHandle(uint8_t button, uint8_t pressAndHoldEvent);
+void userButton_HoldingEventHandle(uint8_t button, BUTTON_Event_t holdingEvent);
 
 
 

@@ -47,12 +47,16 @@ on
 area name off
 appSerial=1
 remove,ATTRIBUTES
-compile,DEBUG
 compile,ZDO
 enable,DEBUG
 enable,ZDO
 }
 {setupId:eventConfiguration
+mainStateEventControl,mainStateEventHandle
+joinNetworkEventControl,joinNetworkEventHandle
+buttonPressAndHoldEventControl,buttonPressAndHoldEventHandle
+buttonReleaseEventControl,buttonReleaseEventHandle
+led1ToggleEventControl,led1ToggleEventHandle
 }
 {setupId:halOptions
 }
@@ -319,8 +323,8 @@ overrideServerCluster:0x0000,yes
 overrideServerCluster:0x0001,no
 overrideServerCluster:0x0002,no
 overrideServerCluster:0x0003,yes
-overrideServerCluster:0x0004,no
-overrideServerCluster:0x0005,no
+overrideServerCluster:0x0004,yes
+overrideServerCluster:0x0005,yes
 overrideServerCluster:0x0006,yes
 overrideServerCluster:0x0007,no
 overrideServerCluster:0x0008,no

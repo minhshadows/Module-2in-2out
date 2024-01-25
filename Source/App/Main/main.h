@@ -18,7 +18,6 @@
 #include "Source/App/Network/network.h"
 #include "Source/App/Send/send.h"
 #include "Source/App/Receive/received.h"
-#include "Source/Hard/LDR/adc.h"
 
 typedef enum
 {

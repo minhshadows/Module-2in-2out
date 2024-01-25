@@ -11,23 +11,19 @@
 /******************************************************************************/
 /*                     		DEFINITIONS            				              */
 /******************************************************************************/
-#define LED_RGB_COUNT				2
+#define LED_RGB_COUNT				1
 #define LED_RGB_ELEMENT				3
 
 #define LED_RGB_DIM_T				10000
 
-#define LED_PORT_1					gpioPortA
-#define LED_BLUE_PIN_1				(0U)
-#define LED_GREEN_PIN_1				(3U)
-#define LED_RED_PIN_1				(4U)
+#define LED_PORT_1					gpioPortD
+#define LED_BLUE_PIN				(4U)
+#define LED_RED_PIN					(3U)
 
-#define LED_PORT_2					gpioPortD
-#define LED_BLUE_PIN_2				(2U)
-#define LED_GREEN_PIN_2				(1U)
-#define LED_RED_PIN_2				(0U)
+#define LED_PORT_2					gpioPortA
+#define LED_GREEN_PIN				(1U)
 
-#define LED_RGB_1                       { { LED_PORT_1, LED_RED_PIN_1 }, { LED_PORT_1, LED_GREEN_PIN_1 }, { LED_PORT_1, LED_BLUE_PIN_1 } }
-#define LED_RGB_2                       { { LED_PORT_2, LED_RED_PIN_2 }, { LED_PORT_2, LED_GREEN_PIN_2 }, { LED_PORT_2, LED_BLUE_PIN_2 } }
+#define LED_RGB_1                       { { LED_PORT_1, LED_RED_PIN }, { LED_PORT_2, LED_GREEN_PIN }, { LED_PORT_1, LED_BLUE_PIN } }
 
 #define TIMER_DIM_INIT                                                           \
 {                                                                                   \

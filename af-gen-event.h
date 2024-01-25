@@ -11,6 +11,8 @@
 #define EMBER_AF_GENERATED_EVENT_CODE \
   EmberEventControl emberAfIdentifyClusterServerTickCallbackControl1; \
   EmberEventControl emberAfIdentifyClusterServerTickCallbackControl2; \
+  extern EmberEventControl buttonPressAndHoldEventControl; \
+  extern EmberEventControl buttonReleaseEventControl; \
   extern EmberEventControl emberAfPluginFindAndBindInitiatorCheckTargetResponsesEventControl; \
   extern EmberEventControl emberAfPluginInterpanFragmentReceiveEventControl; \
   extern EmberEventControl emberAfPluginInterpanFragmentTransmitEventControl; \
@@ -18,6 +20,11 @@
   extern EmberEventControl emberAfPluginReportingTickEventControl; \
   extern EmberEventControl emberAfPluginScanDispatchScanEventControl; \
   extern EmberEventControl emberAfPluginUpdateTcLinkKeyBeginTcLinkKeyUpdateEventControl; \
+  extern EmberEventControl joinNetworkEventControl; \
+  extern EmberEventControl led1ToggleEventControl; \
+  extern EmberEventControl mainStateEventControl; \
+  extern void buttonPressAndHoldEventHandle(void); \
+  extern void buttonReleaseEventHandle(void); \
   extern void emberAfPluginFindAndBindInitiatorCheckTargetResponsesEventHandler(void); \
   extern void emberAfPluginInterpanFragmentReceiveEventHandler(void); \
   extern void emberAfPluginInterpanFragmentTransmitEventHandler(void); \
@@ -25,6 +32,9 @@
   extern void emberAfPluginReportingTickEventHandler(void); \
   extern void emberAfPluginScanDispatchScanEventHandler(void); \
   extern void emberAfPluginUpdateTcLinkKeyBeginTcLinkKeyUpdateEventHandler(void); \
+  extern void joinNetworkEventHandle(void); \
+  extern void led1ToggleEventHandle(void); \
+  extern void mainStateEventHandle(void); \
   static void clusterTickWrapper(EmberEventControl *control, EmberAfTickFunction callback, uint8_t endpoint) \
   { \
     emberAfPushEndpointNetworkIndex(endpoint); \
@@ -40,6 +50,8 @@
 #define EMBER_AF_GENERATED_EVENTS   \
   { &emberAfIdentifyClusterServerTickCallbackControl1, emberAfIdentifyClusterServerTickCallbackWrapperFunction1 }, \
   { &emberAfIdentifyClusterServerTickCallbackControl2, emberAfIdentifyClusterServerTickCallbackWrapperFunction2 }, \
+  { &buttonPressAndHoldEventControl, buttonPressAndHoldEventHandle }, \
+  { &buttonReleaseEventControl, buttonReleaseEventHandle }, \
   { &emberAfPluginFindAndBindInitiatorCheckTargetResponsesEventControl, emberAfPluginFindAndBindInitiatorCheckTargetResponsesEventHandler }, \
   { &emberAfPluginInterpanFragmentReceiveEventControl, emberAfPluginInterpanFragmentReceiveEventHandler }, \
   { &emberAfPluginInterpanFragmentTransmitEventControl, emberAfPluginInterpanFragmentTransmitEventHandler }, \
@@ -47,11 +59,16 @@
   { &emberAfPluginReportingTickEventControl, emberAfPluginReportingTickEventHandler }, \
   { &emberAfPluginScanDispatchScanEventControl, emberAfPluginScanDispatchScanEventHandler }, \
   { &emberAfPluginUpdateTcLinkKeyBeginTcLinkKeyUpdateEventControl, emberAfPluginUpdateTcLinkKeyBeginTcLinkKeyUpdateEventHandler }, \
+  { &joinNetworkEventControl, joinNetworkEventHandle }, \
+  { &led1ToggleEventControl, led1ToggleEventHandle }, \
+  { &mainStateEventControl, mainStateEventHandle }, \
 
 
 #define EMBER_AF_GENERATED_EVENT_STRINGS   \
   "Identify Cluster Server EP 1",  \
   "Identify Cluster Server EP 2",  \
+  "Button press and hold event control",  \
+  "Button release event control",  \
   "Find and Bind Initiator Plugin CheckTargetResponses",  \
   "Interpan Plugin FragmentReceive",  \
   "Interpan Plugin FragmentTransmit",  \
@@ -59,6 +76,9 @@
   "Reporting Plugin Tick",  \
   "Scan Dispatch Plugin Scan",  \
   "Update TC Link Key Plugin BeginTcLinkKeyUpdate",  \
+  "Join network event control",  \
+  "Led1 toggle event control",  \
+  "Main state event control",  \
 
 
 // The length of the event context table used to track and retrieve cluster events

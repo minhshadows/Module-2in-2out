@@ -70,12 +70,6 @@ EmberAfStatus emberAfClusterSpecificCommandParse(EmberAfClusterCommand *cmd)
     case ZCL_IDENTIFY_CLUSTER_ID:
       result = emberAfIdentifyClusterServerCommandParse(cmd);
       break;
-    case ZCL_GROUPS_CLUSTER_ID:
-      result = status(false, true, cmd->mfgSpecific);
-      break;
-    case ZCL_SCENES_CLUSTER_ID:
-      result = status(false, true, cmd->mfgSpecific);
-      break;
     case ZCL_ON_OFF_CLUSTER_ID:
       result = emberAfOnOffClusterServerCommandParse(cmd);
       break;

@@ -21,10 +21,10 @@ typedef struct {
   uint8_t			  blinkTime;
 } ledArray_t;
 
-EmberEventControl led1ToggleEventControl,led2ToggleEventControl;
+EmberEventControl led1ToggleEventControl;
 EmberEventControl *ledEventControl[LED_RGB_COUNT];
 
-ledArray_t led_Array[LED_RGB_COUNT][LED_RGB_ELEMENT] = {LED_RGB_1, LED_RGB_2};
+ledArray_t led_Array[LED_RGB_COUNT][LED_RGB_ELEMENT] = {LED_RGB_1};
 
 ledArray_t ledAction[LED_RGB_COUNT];
 
@@ -47,9 +47,7 @@ void ledInit(void)
 		}
 	}
 	turnOffRBGLed(LED1);
-	turnOffRBGLed(LED2);
 	ledEventControl[LED1] =(EmberEventControl *) &led1ToggleEventControl;
-	ledEventControl[LED2] =(EmberEventControl *) &led2ToggleEventControl;
 }
 
 /**
@@ -84,6 +82,7 @@ void turnOnLed(ledNumber index, ledColor_e color)
 			GPIO_PinOutSet(led_Array[index][j].port, led_Array[index][j].pin);
 		}
 	}
+	emberAfCorePrintln("ONNNN!!!");
 }
 
 /**
@@ -166,22 +165,3 @@ void led1ToggleEventHandle(void)
 	}
 }
 
-
-/**
- * @func    led2ToggleEventHandle
- * @brief   Event Led Handler
- * @param   None
- * @retval  None
- */
-void led2ToggleEventHandle(void)
-{
-	emberEventControlSetInactive(led2ToggleEventControl);
-	switch(ledAction[LED2].ledBlinkMode)
-	{
-	case LED_TOGGLE:
-		toggleLedHandle(LED2);
-		break;
-	default:
-		break;
-	}
-}
