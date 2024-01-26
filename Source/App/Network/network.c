@@ -95,7 +95,6 @@ void userNETWORK_EventHandle(uint8_t networkResult)
 		emberEventControlSetDelayMS(mainStateEventControl,1000);
 		break;
 	case NETWORK_JOIN_SUCCESS:
-		toggleLed(LED2,ledGreen,3,300,300);
 		emberAfCorePrintln("Join Success!!!");
 		networkReady = true;
 		systemState = REPORT_STATE;

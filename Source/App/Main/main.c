@@ -30,10 +30,11 @@ void emberAfMainInitCallback(void)
 {
 	emberAfCorePrintln("Main Init!!!");
 	ledInit();
-	buttonInit(userButton_HoldingEventHandle,userButton_PressAndHoldEventHandle);
+//	buttonInit(userButton_HoldingEventHandle,userButton_PressAndHoldEventHandle);
 //	networkInit(userNETWORK_EventHandle);
-//	turnOnLed(LED1,ledGreen);
-	GPIO_PinOutSet(gpioPortD,3U);
+//	turnOnLed(LED1,ledRed);
+	turnOnLed(LED1,ledPink);
+//	GPIO_PinOutClear(gpioPortB,0U);
 	systemState = POWER_ON_STATE;
 //	emberEventControlSetActive(mainStateEventControl);
 //	emberEventControlSetActive(LightEventControl);

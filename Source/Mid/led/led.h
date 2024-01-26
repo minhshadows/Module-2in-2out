@@ -16,14 +16,11 @@
 
 #define LED_RGB_DIM_T				10000
 
-#define LED_PORT_1					gpioPortD
-#define LED_BLUE_PIN				(4U)
-#define LED_RED_PIN					(3U)
+#define LED_PORT					gpioPortB
+#define LED_BLUE_PIN				(0U)
+#define LED_RED_PIN					(1U)
 
-#define LED_PORT_2					gpioPortA
-#define LED_GREEN_PIN				(1U)
-
-#define LED_RGB_1                       { { LED_PORT_1, LED_RED_PIN }, { LED_PORT_2, LED_GREEN_PIN }, { LED_PORT_1, LED_BLUE_PIN } }
+#define LED_RGB_1                       { { LED_PORT, LED_RED_PIN },{ gpioPortA, 1U }, { LED_PORT, LED_BLUE_PIN } }
 
 #define TIMER_DIM_INIT                                                           \
 {                                                                                   \
@@ -52,8 +49,6 @@ typedef enum
 	ledGreen			= BIT(1),
 	ledBlue				= BIT(2),
 	ledPink				= ledRed  | ledBlue,
-	ledyellow			= ledGreen| ledRed,
-	ledRGB				= ledRed  | ledGreen | ledBlue
 }ledColor_e;
 
 typedef enum
