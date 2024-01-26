@@ -82,7 +82,6 @@ void turnOnLed(ledNumber index, ledColor_e color)
 			GPIO_PinOutSet(led_Array[index][j].port, led_Array[index][j].pin);
 		}
 	}
-	emberAfCorePrintln("ONNNN!!!");
 }
 
 /**

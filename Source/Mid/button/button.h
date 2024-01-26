@@ -22,8 +22,8 @@
 #define HOLD_TIME_MIN					5
 
 
-#define BUTTON_1_PORT				gpioPortC
-#define BUTTON_1_PIN				(1U)
+#define BUTTON_1_PORT				gpioPortA
+#define BUTTON_1_PIN				(6U)
 
 #define BUTTON_INIT					{{BUTTON_1_PORT,BUTTON_1_PIN}}
 
