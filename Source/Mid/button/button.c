@@ -263,6 +263,52 @@ void userButton_PressAndHoldEventHandle(uint8_t button, uint8_t pressAndHoldEven
  */
 void userButton_HoldingEventHandle(uint8_t button, BUTTON_Event_t holdingEvent)
 {
-
+	if (button == SW_1) // for endpoint 1
+	{
+		switch(holdingEvent)
+		{
+		case hold_1s:
+			emberAfCorePrintln("hold_1s!!!");
+//			turnOnLed(LED1,ledBlue);
+//			SEND_OnOffStateReport(1,LED_ON);
+			break;
+		case hold_2s:
+			emberAfCorePrintln("hold_2s!!!");
+//			turnOffRBGLed(LED1);
+//			SEND_OnOffStateReport(1,LED_OFF);
+			break;
+		case hold_3s:// target find
+			emberAfCorePrintln("hold_3s!!!");
+//			(void) emberAfPluginFindAndBindTargetStart(1);
+			break;
+		case hold_4s:// initiator find
+			emberAfCorePrintln("hold_4s!!!");
+//			(void) emberAfPluginFindAndBindInitiatorStart(1);
+			break;
+		case hold_5s:
+			emberAfCorePrintln("hold_5s!!!");
+//			NETWORK_Leave();
+			break;
+		case hold_6s:
+			emberAfCorePrintln("hold_6s!!!");
+			break;
+		case hold_7s:
+			emberAfCorePrintln("hold_7s!!!");
+			break;
+		case hold_8s:
+			emberAfCorePrintln("hold_8s!!!");
+			break;
+		case hold_9s:
+			emberAfCorePrintln("hold_9s!!!");
+			break;
+		case hold_10s:
+			emberAfCorePrintln("hold_10s!!!");
+			break;
+		case unknown:
+			break;
+		default:
+			break;
+		}
+	}
 }
 

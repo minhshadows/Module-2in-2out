@@ -42,6 +42,11 @@ typedef enum
 	hold_3s	,
 	hold_4s	,
 	hold_5s ,
+	hold_6s,
+	hold_7s,
+	hold_8s,
+	hold_9s,
+	hold_10s,
 	hold_max,
 	unknown,
 }BUTTON_Event_t;
