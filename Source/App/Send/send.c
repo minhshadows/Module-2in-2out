@@ -67,9 +67,9 @@ void SEND_CommanBinding(uint8_t cmdID, uint8_t indexTable)
  */
 void SEND_ReportInfoToHc()
 {
-	uint8_t modelID[8] = {7, 'S', 'W', '2','_','L','M','1'};
-//	uint8_t manufactureID[5] = {4, 'L', 'u', 'm', 'i'};
-//	uint8_t version = 1;
+	uint8_t modelID[4] = {3, 'S', 'W', '2'};
+	uint8_t manufactureID[5] = {4, 'L', 'u', 'm', 'i'};
+	uint8_t version = 1;
 	uint16_t addressHC = 0x0000;//emberGetParentId();
 	emberAfCorePrintln("Report!!!");
 	if(emberAfNetworkState() != EMBER_JOINED_NETWORK)
@@ -110,7 +110,12 @@ void SEND_OnOffStateReport(uint8_t endpoint, ledOnOffState_e state)
 								ZCL_ON_OFF_ATTRIBUTE_ID,
 								(uint8_t*) &state,
 								ZCL_BOOLEAN_ATTRIBUTE_TYPE);
-	SEND_FillBufferGlobalComman(ZCL_ON_OFF_CLUSTER_ID,ZCL_ON_OFF_ATTRIBUTE_ID,ZCL_READ_ATTRIBUTES_RESPONSE_COMMAND_ID,(uint8_t*) &state,1,ZCL_BOOLEAN_ATTRIBUTE_TYPE);
+	SEND_FillBufferGlobalComman(ZCL_ON_OFF_CLUSTER_ID,
+								ZCL_ON_OFF_ATTRIBUTE_ID,
+								ZCL_READ_ATTRIBUTES_RESPONSE_COMMAND_ID,
+								(uint8_t*) &state,
+								1,
+								ZCL_BOOLEAN_ATTRIBUTE_TYPE);
 
 	SEND_SendCommandUnicast(endpoint,1,address);
 

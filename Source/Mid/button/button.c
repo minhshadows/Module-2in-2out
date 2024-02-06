@@ -2,6 +2,7 @@
 
  ******************************************************************************/
 #include "app/framework/include/af.h"
+#include "Source/Hardd/RL_SIG/rl_sig.h"
 #include "button.h"
 
 
@@ -214,19 +215,31 @@ static uint8_t getButtonIndex(uint8_t pin)
  *
  * @retval	none
  */
+uint8_t in_1,in_2 = 0;
 void userButton_PressAndHoldEventHandle(uint8_t button, uint8_t pressAndHoldEvent)
 {
+	uint8_t modeA,modeB=0;
 	if (button == SW_1) // for endpoint 1
 	{
 		switch(pressAndHoldEvent)
 		{
 		case press_1:
 			emberAfCorePrintln("press_1!!!");
+			in_1 = GPIO_PinInGet(SIG_Port_1,SIG_Pin_1);
+			in_2 = GPIO_PinInGet(SIG_Port_2,SIG_Pin_2);
+			emberAfCorePrintln("PinIn_1 = %d!!!",in_1);
+			emberAfCorePrintln("PinIn_2 = %d!!!",in_2);
+			turnOnRelay();
 //			turnOnLed(LED1,ledBlue);
 //			SEND_OnOffStateReport(1,LED_ON);
 			break;
 		case press_2:
 			emberAfCorePrintln("press_2!!!");
+			modeA=GPIO_PinModeGet(SIG_Port_1,SIG_Pin_1);
+			modeB=GPIO_PinModeGet(SIG_Port_2,SIG_Pin_2);
+			emberAfCorePrintln("GPIO_Mode IN_1 = %d!!!",modeA);
+			emberAfCorePrintln("GPIO_Mode IN_2 = %d!!!",modeB);
+			turnOffRelay();
 //			turnOffRBGLed(LED1);
 //			SEND_OnOffStateReport(1,LED_OFF);
 			break;

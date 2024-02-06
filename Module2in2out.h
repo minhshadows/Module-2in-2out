@@ -33,6 +33,8 @@
 #define ZCL_USING_SCENES_CLUSTER_SERVER
 #define ZCL_USING_ON_OFF_CLUSTER_CLIENT
 #define ZCL_USING_ON_OFF_CLUSTER_SERVER
+/**** Optional Attributes ****/
+#define ZCL_USING_BASIC_CLUSTER_MODEL_IDENTIFIER_ATTRIBUTE 
 #define EMBER_AF_MANUFACTURER_CODE 0x1002
 #define EMBER_AF_DEFAULT_RESPONSE_POLICY_ALWAYS
 
@@ -136,7 +138,7 @@
 // Use this macro to check if Binding Table Library plugin is included
 #define EMBER_AF_PLUGIN_BINDING_TABLE_LIBRARY
 // User options for plugin Binding Table Library
-#define EMBER_BINDING_TABLE_SIZE 3
+#define EMBER_BINDING_TABLE_SIZE 50
 
 // Use this macro to check if CCM* Encryption plugin is included
 #define EMBER_AF_PLUGIN_CCM_ENCRYPTION

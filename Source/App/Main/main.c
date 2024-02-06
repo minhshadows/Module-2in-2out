@@ -31,9 +31,11 @@ void emberAfMainInitCallback(void)
 	emberAfCorePrintln("Main Init!!!");
 	ledInit();
 	buttonInit(userButton_HoldingEventHandle,userButton_PressAndHoldEventHandle);
-//	networkInit(userNETWORK_EventHandle);
+	networkInit(userNETWORK_EventHandle);
+	relayInit();
+	sigInit();
 	systemState = POWER_ON_STATE;
-//	emberEventControlSetActive(mainStateEventControl);
+	emberEventControlSetActive(mainStateEventControl);
 }
 
 /**
