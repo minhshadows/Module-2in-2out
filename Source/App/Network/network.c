@@ -70,56 +70,6 @@ boolean emberAfStackStatusCallback(EmberStatus status)
 }
 
 /**
- * @func	userNETWORK_EventHandle
- *
- * @brief	process follow network state
- *
- * @param	[networkResult]: result from callback
- *
- * @retval	none
- */
-void userNETWORK_EventHandle(uint8_t networkResult)
-{
-	emberAfCorePrintln("NETWORK_EventHandle!!!");
-	switch(networkResult)
-	{
-	case NETWORK_HAS_PARENT:
-		toggleLed(LED2,ledBlue,3,300,300);
-		emberAfCorePrintln("Has Parenttt!!!");
-		networkReady = true;
-		systemState = REPORT_STATE;
-		emberEventControlSetDelayMS(mainStateEventControl,1000);
-		break;
-	case NETWORK_JOIN_FAIL:
-		systemState = IDLE_STATE;
-		emberEventControlSetDelayMS(mainStateEventControl,1000);
-		break;
-	case NETWORK_JOIN_SUCCESS:
-		emberAfCorePrintln("Join Success!!!");
-		networkReady = true;
-		systemState = REPORT_STATE;
-		emberEventControlSetDelayMS(mainStateEventControl,1000);
-		break;
-	case NETWORK_LOST_PARENT:
-		toggleLed(LED2,ledRed,3,300,300);
-		systemState = IDLE_STATE;
-		emberAfCorePrintln("Losttt!!!");
-		emberEventControlSetDelayMS(mainStateEventControl,1000);
-		break;
-	case NETWORK_OUT_NETWORK:
-		if(networkReady)
-		{
-			toggleLed(LED1,ledPink,3,300,300);
-			systemState = REBOOT_STATE;
-			emberEventControlSetDelayMS(mainStateEventControl,3000);
-		}
-		break;
-	default:
-		break;
-	}
-}
-
-/**
  * @func	NETWORK_FindAndJoin
  *
  * @brief	use to find network after 2000 ms

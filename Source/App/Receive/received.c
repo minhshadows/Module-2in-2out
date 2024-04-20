@@ -6,7 +6,6 @@
  */
 
 #include "received.h"
-void GET_BindingTalbe(uint8_t cmdID,EmberNodeId source);
 
 /** @brief Pre Command Received
  *
@@ -48,41 +47,42 @@ boolean emberAfPreCommandReceivedCallback(EmberAfClusterCommand* cmd)
  */
 void RECEIVE_HandleOnOffCluster(EmberAfClusterCommand* cmd)
 {
-	uint8_t commandID		= cmd->commandId;
-	uint8_t endPoint 		= cmd->apsFrame->destinationEndpoint;
-	EmberNodeId source		= cmd->source;
+	uint8_t commandID				= cmd->commandId;
+	uint8_t destination_Endpoint 	= cmd->apsFrame->destinationEndpoint;
+	EmberNodeId source_Address		= cmd->source;
 
 	if(cmd->type == EMBER_INCOMING_UNICAST)
 	{
 		switch(commandID)
 		{
 		case ZCL_OFF_COMMAND_ID:
-			if(endPoint == 1)
+			if(destination_Endpoint == 1)
 			{
-				turnOffRBGLed(LED1);
-				SEND_OnOffStateReport(endPoint,LED_OFF);
-				GET_BindingTalbe(commandID,source);
+				set_RelayState(RELAY1,OFF);
+				switch_StatusChange(RELAY1);
+				GET_BindingTalbe(commandID,source_Address,destination_Endpoint);
 			}
-			else if(endPoint == 2)
+			else if(destination_Endpoint == 2)
 			{
-				turnOffRBGLed(LED2);
-				SEND_OnOffStateReport(endPoint,LED_OFF);
+				set_RelayState(RELAY2,OFF);
+				switch_StatusChange(RELAY2);
+				GET_BindingTalbe(commandID,source_Address,destination_Endpoint);
 			}
 
 			break;
 		case ZCL_ON_COMMAND_ID:
-			if(endPoint == 1)
+			if(destination_Endpoint == 1)
 			{
-				turnOnLed(LED1,ledBlue);
-				SEND_OnOffStateReport(endPoint,LED_ON);
-				GET_BindingTalbe(commandID,source);
+				set_RelayState(RELAY1,ON);
+				switch_StatusChange(RELAY1);
+				GET_BindingTalbe(commandID,source_Address,destination_Endpoint);
 			}
-			else if(endPoint == 2)
+			else if(destination_Endpoint == 2)
 			{
-				turnOnLed(LED2,ledBlue);
-				SEND_OnOffStateReport(endPoint,LED_ON);
+				set_RelayState(RELAY2,ON);
+				switch_StatusChange(RELAY2);
+				GET_BindingTalbe(commandID,source_Address,destination_Endpoint);
 			}
-
 			break;
 		default:
 			break;
@@ -118,15 +118,10 @@ boolean emberAfPreMessageReceivedCallback(EmberAfIncomingMessage* incomingMessag
   return false;
 }
 
-void RECEIVE_HandleMessageCluster(EmberAfIncomingMessage* incomingMessage)
-{
-
-}
-
 /**
  * @func	GET_BindingTalbe
  *
- * @brief	get binding table
+ * @brief	get binding table and process message to send target
  *
  * @param	[cmdID] : command ID
  *
@@ -134,9 +129,10 @@ void RECEIVE_HandleMessageCluster(EmberAfIncomingMessage* incomingMessage)
  *
  * @retval	none
  */
-void GET_BindingTalbe(uint8_t cmdID,EmberNodeId source)
+void GET_BindingTalbe(uint8_t cmdID,EmberNodeId source_Address,uint8_t localEndpoint)
 {
 	EmberBindingTableEntry talbe;
+	EmberNodeId remoteNodeID;
 	for(uint8_t i=0; i<emberAfGetBindingTableSize();i++)
 	{
 		if(emberGetBinding(i,&talbe) == EMBER_SUCCESS)
@@ -151,9 +147,15 @@ void GET_BindingTalbe(uint8_t cmdID,EmberNodeId source)
 				emberAfCorePrintln("local		: %d",talbe.local);
 				emberAfCorePrintln("remote		: %d",talbe.remote);
 				emberAfCorePrintln("-----------------------");
-				if(source != emberGetBindingRemoteNodeId(i))
+				if(talbe.local == localEndpoint)
 				{
-					SEND_CommanBinding(cmdID,i);
+					emberAfCorePrintln("localEndpoint == %d",localEndpoint);
+					remoteNodeID = emberGetBindingRemoteNodeId(i);
+					if(source_Address != remoteNodeID)
+					{
+						emberAfCorePrintln("Node == %X",remoteNodeID);
+						SEND_CommandBinding(cmdID,localEndpoint,talbe.remote,remoteNodeID);
+					}
 				}
 			}
 		}

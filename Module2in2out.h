@@ -165,7 +165,7 @@
 // Use this macro to check if Find and Bind Initiator plugin is included
 #define EMBER_AF_PLUGIN_FIND_AND_BIND_INITIATOR
 // User options for plugin Find and Bind Initiator
-#define EMBER_AF_PLUGIN_FIND_AND_BIND_INITIATOR_TARGET_RESPONSES_COUNT 5
+#define EMBER_AF_PLUGIN_FIND_AND_BIND_INITIATOR_TARGET_RESPONSES_COUNT 50
 #define EMBER_AF_PLUGIN_FIND_AND_BIND_INITIATOR_TARGET_RESPONSES_DELAY_MS MILLISECOND_TICKS_PER_SECOND*3
 
 // Use this macro to check if Find and Bind Target plugin is included

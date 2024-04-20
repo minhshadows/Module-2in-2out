@@ -20,9 +20,13 @@
   extern EmberEventControl emberAfPluginReportingTickEventControl; \
   extern EmberEventControl emberAfPluginScanDispatchScanEventControl; \
   extern EmberEventControl emberAfPluginUpdateTcLinkKeyBeginTcLinkKeyUpdateEventControl; \
+  extern EmberEventControl inputScanEventControl; \
   extern EmberEventControl joinNetworkEventControl; \
   extern EmberEventControl led1ToggleEventControl; \
   extern EmberEventControl mainStateEventControl; \
+  extern EmberEventControl relay1ToggleEventControl; \
+  extern EmberEventControl relay2ToggleEventControl; \
+  extern EmberEventControl signalEventControl; \
   extern void buttonPressAndHoldEventHandle(void); \
   extern void buttonReleaseEventHandle(void); \
   extern void emberAfPluginFindAndBindInitiatorCheckTargetResponsesEventHandler(void); \
@@ -32,9 +36,13 @@
   extern void emberAfPluginReportingTickEventHandler(void); \
   extern void emberAfPluginScanDispatchScanEventHandler(void); \
   extern void emberAfPluginUpdateTcLinkKeyBeginTcLinkKeyUpdateEventHandler(void); \
+  extern void inputScanEventHandle(void); \
   extern void joinNetworkEventHandle(void); \
   extern void led1ToggleEventHandle(void); \
   extern void mainStateEventHandle(void); \
+  extern void relay1ToggleEventHandle(void); \
+  extern void relay2ToggleEventHandle(void); \
+  extern void signalEventHandle(void); \
   static void clusterTickWrapper(EmberEventControl *control, EmberAfTickFunction callback, uint8_t endpoint) \
   { \
     emberAfPushEndpointNetworkIndex(endpoint); \
@@ -59,9 +67,13 @@
   { &emberAfPluginReportingTickEventControl, emberAfPluginReportingTickEventHandler }, \
   { &emberAfPluginScanDispatchScanEventControl, emberAfPluginScanDispatchScanEventHandler }, \
   { &emberAfPluginUpdateTcLinkKeyBeginTcLinkKeyUpdateEventControl, emberAfPluginUpdateTcLinkKeyBeginTcLinkKeyUpdateEventHandler }, \
+  { &inputScanEventControl, inputScanEventHandle }, \
   { &joinNetworkEventControl, joinNetworkEventHandle }, \
   { &led1ToggleEventControl, led1ToggleEventHandle }, \
   { &mainStateEventControl, mainStateEventHandle }, \
+  { &relay1ToggleEventControl, relay1ToggleEventHandle }, \
+  { &relay2ToggleEventControl, relay2ToggleEventHandle }, \
+  { &signalEventControl, signalEventHandle }, \
 
 
 #define EMBER_AF_GENERATED_EVENT_STRINGS   \
@@ -76,9 +88,13 @@
   "Reporting Plugin Tick",  \
   "Scan Dispatch Plugin Scan",  \
   "Update TC Link Key Plugin BeginTcLinkKeyUpdate",  \
+  "Event data",  \
   "Join network event control",  \
   "Led1 toggle event control",  \
   "Main state event control",  \
+  "Relay1 toggle event control",  \
+  "Relay2 toggle event control",  \
+  "Signal event control",  \
 
 
 // The length of the event context table used to track and retrieve cluster events

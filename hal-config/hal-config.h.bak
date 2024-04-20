@@ -148,11 +148,11 @@
 // [UARTNCP]$
 
 // $[USART0]
-#define PORTIO_USART0_RX_PIN                  (5U)
-#define PORTIO_USART0_RX_PORT                 (gpioPortA)
+#define PORTIO_USART0_RX_PIN                  (1U)
+#define PORTIO_USART0_RX_PORT                 (gpioPortD)
 
-#define PORTIO_USART0_TX_PIN                  (1U)
-#define PORTIO_USART0_TX_PORT                 (gpioPortD)
+#define PORTIO_USART0_TX_PIN                  (5U)
+#define PORTIO_USART0_TX_PORT                 (gpioPortA)
 
 #define HAL_USART0_ENABLE                     (1)
 

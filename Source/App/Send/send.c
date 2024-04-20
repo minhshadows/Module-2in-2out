@@ -36,7 +36,7 @@ static void SEND_SendCommandUnicast(uint8_t source,uint8_t destination,uint16_t 
 }
 
 /**
- * @func	SEND_CommanBinding
+ * @func	SEND_CommandBinding
  *
  * @brief	Send command from initiator to target
  *
@@ -46,14 +46,14 @@ static void SEND_SendCommandUnicast(uint8_t source,uint8_t destination,uint16_t 
  *
  * @retval	none
  */
-void SEND_CommanBinding(uint8_t cmdID, uint8_t indexTable)
+void SEND_CommandBinding(uint8_t cmdID,uint8_t sourceEndpoint,uint8_t desEndpoint, EmberNodeId remoteAddess)
 {
 	emberAfFillExternalBuffer(ZCL_CLUSTER_SPECIFIC_COMMAND | ZCL_FRAME_CONTROL_CLIENT_TO_SERVER ,
 								ZCL_ON_OFF_CLUSTER_ID,
 								cmdID,
 								"");
 
-	emberAfSendCommandUnicast(EMBER_OUTGOING_DIRECT,emberGetBindingRemoteNodeId(indexTable));
+	SEND_SendCommandUnicast(sourceEndpoint,desEndpoint, remoteAddess);
 }
 
 /**
@@ -68,8 +68,8 @@ void SEND_CommanBinding(uint8_t cmdID, uint8_t indexTable)
 void SEND_ReportInfoToHc()
 {
 	uint8_t modelID[4] = {3, 'S', 'W', '2'};
-	uint8_t manufactureID[5] = {4, 'L', 'u', 'm', 'i'};
-	uint8_t version = 1;
+//	uint8_t manufactureID[5] = {4, 'L', 'u', 'm', 'i'};
+//	uint8_t version = 1;
 	uint16_t addressHC = 0x0000;//emberGetParentId();
 	emberAfCorePrintln("Report!!!");
 	if(emberAfNetworkState() != EMBER_JOINED_NETWORK)
@@ -100,7 +100,7 @@ void SEND_ReportInfoToHc()
  */
 void SEND_OnOffStateReport(uint8_t endpoint, ledOnOffState_e state)
 {
-	uint16_t address =0x0000; //emberGetParentId();
+	uint16_t HC_address =0x0000;
 	if(emberAfNetworkState() != EMBER_JOINED_NETWORK)
 	{
 		return;
@@ -117,37 +117,6 @@ void SEND_OnOffStateReport(uint8_t endpoint, ledOnOffState_e state)
 								1,
 								ZCL_BOOLEAN_ATTRIBUTE_TYPE);
 
-	SEND_SendCommandUnicast(endpoint,1,address);
-
+	SEND_SendCommandUnicast(endpoint,1,HC_address);
 }
 
-
-/**
- * @func	SEND_measuredValueReport
- *
- * @brief	Send value of light sensor to HC
- *
- * @param	[endpoint]:
- *
- * @param	[value]: value to send
- *
- * @retval	none
- */
-void SEND_measuredValueReport(uint8_t endpoint,uint16_t value)
-{
-	uint16_t addressHC = 0x0000;
-
-	if(emberAfNetworkState() != EMBER_JOINED_NETWORK)
-	{
-		return;
-	}
-
-	SEND_FillBufferGlobalComman(ZCL_ILLUM_MEASUREMENT_CLUSTER_ID,
-			ZCL_ILLUM_MEASURED_VALUE_ATTRIBUTE_ID,
-			ZCL_READ_ATTRIBUTES_RESPONSE_COMMAND_ID,
-			(uint8_t *)&value,
-			2,
-			ZCL_INT16U_ATTRIBUTE_TYPE);
-
-	SEND_SendCommandUnicast(endpoint,1,addressHC);
-}

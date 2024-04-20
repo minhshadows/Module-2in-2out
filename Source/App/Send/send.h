@@ -17,6 +17,6 @@
 void SEND_ReportInfoToHc();
 void SEND_OnOffStateReport(uint8_t endpoint, ledOnOffState_e state);
 void SEND_measuredValueReport(uint8_t endpoint,uint16_t value);
-void SEND_CommanBinding(uint8_t cmdID, uint8_t indexTable);
+void SEND_CommandBinding(uint8_t cmdID,uint8_t sourceEndpoint,uint8_t desEndpoint, EmberNodeId remoteAddess);
 
 #endif /* SOURCE_APP_SEND_SEND_H_ */

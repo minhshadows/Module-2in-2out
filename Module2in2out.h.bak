@@ -138,7 +138,7 @@
 // Use this macro to check if Binding Table Library plugin is included
 #define EMBER_AF_PLUGIN_BINDING_TABLE_LIBRARY
 // User options for plugin Binding Table Library
-#define EMBER_BINDING_TABLE_SIZE 3
+#define EMBER_BINDING_TABLE_SIZE 50
 
 // Use this macro to check if CCM* Encryption plugin is included
 #define EMBER_AF_PLUGIN_CCM_ENCRYPTION

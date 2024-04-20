@@ -19,21 +19,39 @@
 #include "Source/App/Send/send.h"
 #include "Source/App/Receive/received.h"
 #include "Source/Hardd/RL_SIG/rl_sig.h"
+//#include "find-and-bind-initiator.c"
 
 typedef enum
 {
 	POWER_ON_STATE,
 	REPORT_STATE,
 	IDLE_STATE,
+	SETTING_STATE,
+	CHOOSE_MODE_SETTING_STATE,
+	INPUT_MODE_SETTING_STATE,
+	OUTPUT_MODE_SETTING_STATE,
+	OUTPUT_SET_WAIT_TIME,
+	BINDING_MODE,
+	POWER_MODE_SETTING_STATE,
 	REBOOT_STATE
 }sysState;
+
+typedef enum{
+	SWITCH_1,
+	SWITCH_2,
+	SWITCH_NONE
+}switch_config_e;
 
 EmberEventControl mainStateEventControl;
 sysState systemState ;
 bool networkReady;
+switch_config_e switch_config;
 
 void mainStateEventHandle();
 void userButton_PressAndHoldEventHandle(uint8_t button, uint8_t pressAndHoldEvent);
 void userButton_HoldingEventHandle(uint8_t button, BUTTON_Event_t holdingEvent);
+
+void process_Setting(BUTTON_Event_t button);
+void choose_Setting(BUTTON_Event_t button);
 
 #endif /* SOURCE_APP_MAIN_MAIN_H_ */

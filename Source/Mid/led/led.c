@@ -92,12 +92,12 @@ void turnOnLed(ledNumber index, ledColor_e color)
  */
 void toggleLed(ledNumber ledIndex, ledColor_e color, uint8_t toggleTime, uint32_t onTimeMs, uint32_t offTimeMs)
 {
+	turnOffRBGLed(LED1);
 	ledAction[ledIndex].ledBlinkMode = LED_TOGGLE;
 	ledAction[ledIndex].color = color;
 	ledAction[ledIndex].onTime = onTimeMs;
 	ledAction[ledIndex].offTime = offTimeMs;
 	ledAction[ledIndex].blinkTime = toggleTime*2;
-
 	emberEventControlSetActive(*ledEventControl[ledIndex]);
 }
 
