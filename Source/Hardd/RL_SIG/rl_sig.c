@@ -9,7 +9,7 @@
 RELAYx_t relayArr[RL_COUNT] = RL_INIT;
 SIGNALx_t sigArr[SIG_COUNT] = SIG_INIT;
 
-EmberEventControl relay1ToggleEventControl,relay2ToggleEventControl,signalEventControl,inputScanEventControl;
+EmberEventControl relay1ToggleEventControl,relay2ToggleEventControl,signalEventControl,inputScanEventControl,InputHoldEventControl;
 EmberEventControl *relayEventControl[RL_COUNT];
 
 /**
@@ -114,16 +114,56 @@ void input_ModeCheck(uint8_t signal_id)
 	case MomentarySwitch:
 		if(sigArr[signal_id].state == ON)
 		{
-			relayArr[signal_id].state = ON;
+			sigArr[signal_id].press = true;
+			emberEventControlSetActive(InputHoldEventControl);
 		}
 		else{
-			relayArr[signal_id].state = OFF;
+			if(sigArr[signal_id].holdTrigger == true)
+			{
+				relayArr[signal_id].state = !relayArr[signal_id].state;
+				emberAfCorePrintln("light ON!!!");
+			}
+			sigArr[signal_id].holdCount=0;
+			sigArr[signal_id].holdTrigger = false;
+			sigArr[signal_id].press = false;
 		}
 		switch_StatusChange(signal_id);
 		break;
 	default:
 		break;
 	}
+}
+
+/**
+ * @func	InputHoldEventHandle
+ *
+ * @brief	Input momentary scan handle
+ *
+ * @param	none
+ *
+ * @retval	none
+ */
+void InputHoldEventHandle()
+{
+	emberEventControlSetInactive(InputHoldEventControl);
+	bool holdTrigger = false;
+	for(uint8_t i =0;i< SIG_COUNT; i++)
+	{
+		if(sigArr[i].press == true)
+		{
+			holdTrigger = true;
+			sigArr[i].holdCount++;
+			if(sigArr[i].holdCount >=5)
+			{
+				sigArr[i].holdTrigger = true;
+			}
+		}
+	}
+	if(holdTrigger == true)
+	{
+		emberEventControlSetDelayMS(InputHoldEventControl,200);
+	}
+
 }
 
 /**

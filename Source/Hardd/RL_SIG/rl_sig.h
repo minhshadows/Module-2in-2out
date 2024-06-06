@@ -18,6 +18,7 @@
 #define OFF							false
 
 #define MAX_DEBOUNCE				5
+#define MAX_HOLD					350
 
 #define RL_COUNT					2
 #define SIG_COUNT					2
@@ -73,6 +74,10 @@ typedef struct{
   unsigned int			pin;
   INPUT_MODE_e			mode;
   bool					state;
+  uint32_t				holdCount;
+  bool					holdTrigger;
+  bool					press;
+  bool					release;
 }SIGNALx_t;
 
 void relayInit();

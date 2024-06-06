@@ -11,6 +11,7 @@
 #define EMBER_AF_GENERATED_EVENT_CODE \
   EmberEventControl emberAfIdentifyClusterServerTickCallbackControl1; \
   EmberEventControl emberAfIdentifyClusterServerTickCallbackControl2; \
+  extern EmberEventControl InputHoldEventControl; \
   extern EmberEventControl buttonPressAndHoldEventControl; \
   extern EmberEventControl buttonReleaseEventControl; \
   extern EmberEventControl emberAfPluginFindAndBindInitiatorCheckTargetResponsesEventControl; \
@@ -27,6 +28,7 @@
   extern EmberEventControl relay1ToggleEventControl; \
   extern EmberEventControl relay2ToggleEventControl; \
   extern EmberEventControl signalEventControl; \
+  extern void InputHoldEventHandle(void); \
   extern void buttonPressAndHoldEventHandle(void); \
   extern void buttonReleaseEventHandle(void); \
   extern void emberAfPluginFindAndBindInitiatorCheckTargetResponsesEventHandler(void); \
@@ -58,6 +60,7 @@
 #define EMBER_AF_GENERATED_EVENTS   \
   { &emberAfIdentifyClusterServerTickCallbackControl1, emberAfIdentifyClusterServerTickCallbackWrapperFunction1 }, \
   { &emberAfIdentifyClusterServerTickCallbackControl2, emberAfIdentifyClusterServerTickCallbackWrapperFunction2 }, \
+  { &InputHoldEventControl, InputHoldEventHandle }, \
   { &buttonPressAndHoldEventControl, buttonPressAndHoldEventHandle }, \
   { &buttonReleaseEventControl, buttonReleaseEventHandle }, \
   { &emberAfPluginFindAndBindInitiatorCheckTargetResponsesEventControl, emberAfPluginFindAndBindInitiatorCheckTargetResponsesEventHandler }, \
@@ -79,6 +82,7 @@
 #define EMBER_AF_GENERATED_EVENT_STRINGS   \
   "Identify Cluster Server EP 1",  \
   "Identify Cluster Server EP 2",  \
+  "Event data",  \
   "Button press and hold event control",  \
   "Button release event control",  \
   "Find and Bind Initiator Plugin CheckTargetResponses",  \
@@ -88,7 +92,7 @@
   "Reporting Plugin Tick",  \
   "Scan Dispatch Plugin Scan",  \
   "Update TC Link Key Plugin BeginTcLinkKeyUpdate",  \
-  "Event data",  \
+  "Input scan event control",  \
   "Join network event control",  \
   "Led1 toggle event control",  \
   "Main state event control",  \

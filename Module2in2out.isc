@@ -61,6 +61,7 @@ relay1ToggleEventControl,relay1ToggleEventHandle
 relay2ToggleEventControl,relay2ToggleEventHandle
 signalEventControl,signalEventHandle
 inputScanEventControl,inputScanEventHandle
+InputHoldEventControl,InputHoldEventHandle
 }
 {setupId:halOptions
 }

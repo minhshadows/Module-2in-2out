@@ -32,12 +32,14 @@ void emberAfMainInitCallback(void)
 	ledInit();
 	buttonInit(userButton_HoldingEventHandle,userButton_PressAndHoldEventHandle);
 	networkInit(userNETWORK_EventHandle);
-	turnOnLed(LED1,ledPink);
+//	turnOnLed(LED1,ledPink);
 	relayInit();
 	sigInit();
 	switch_config = SWITCH_NONE;
 	output_ModeSet(0,output_default);
 	output_ModeSet(1,output_default);
+	input_ModeSet(0,MomentarySwitch);
+	input_ModeSet(1,MomentarySwitch);
 //	test_UART();
 	systemState = POWER_ON_STATE;
 	emberEventControlSetActive(mainStateEventControl);
@@ -64,35 +66,38 @@ void mainStateEventHandle()
 		nwkStatusCurrent = emberNetworkState();
 		if(nwkStatusCurrent == EMBER_NO_NETWORK)
 		{
-			toggleLed(LED1,ledBlue,3,200,200);
+			toggleLed(LED1,ledRed,3,200,300);
 			NETWORK_FindAndJoin();
 		}
 		switch_config = SWITCH_NONE;
 		systemState = IDLE_STATE;
 		break;
 	case REPORT_STATE:
-		toggleLed(LED1,ledRed,3,300,300);
+		toggleLed(LED1,ledRed,2,400,600);
 		networkReady = true;
 		systemState = IDLE_STATE;
 		SEND_ReportInfoToHc();
 		break;
 	case IDLE_STATE:
+		toggleLed(LED1,ledPink,3,300,300);
 		break;
 	case SETTING_STATE:
 		turnOnLed(LED1,ledPink);
 		break;
-	case CHOOSE_MODE_SETTING_STATE:
+	case CHOOSE_FEATURES_SETTING:
+		toggleLed(LED1,ledBlue,2,300,300);
 		break;
 	case INPUT_MODE_SETTING_STATE:
-		toggleLed(LED1,ledBlue,2,200,200);
+		toggleLed(LED1,ledBlue,3,300,300);
 		break;
 	case OUTPUT_MODE_SETTING_STATE:
-		toggleLed(LED1,ledBlue,3,200,200);
+		toggleLed(LED1,ledBlue,3,300,300);
 		break;
 	case BINDING_MODE:
+		toggleLed(LED1,ledBlue,4,300,300);
 		break;
 	case POWER_MODE_SETTING_STATE:
-		toggleLed(LED1,ledBlue,4,200,200);
+		toggleLed(LED1,ledBlue,5,300,300);
 		break;
 	case REBOOT_STATE:
 		systemState = IDLE_STATE;
@@ -118,7 +123,7 @@ void userNETWORK_EventHandle(uint8_t networkResult)
 	switch(networkResult)
 	{
 	case NETWORK_HAS_PARENT:
-		toggleLed(LED2,ledBlue,3,300,300);
+		toggleLed(LED1,ledBlue,3,200,300);
 		emberAfCorePrintln("Has Parenttt!!!");
 		networkReady = true;
 		systemState = REPORT_STATE;
@@ -135,7 +140,7 @@ void userNETWORK_EventHandle(uint8_t networkResult)
 		emberEventControlSetDelayMS(mainStateEventControl,1000);
 		break;
 	case NETWORK_LOST_PARENT:
-		toggleLed(LED2,ledRed,3,300,300);
+		toggleLed(LED1,ledRed,2,400,600);
 		systemState = IDLE_STATE;
 		emberAfCorePrintln("Losttt!!!");
 		emberEventControlSetDelayMS(mainStateEventControl,1000);
@@ -143,7 +148,7 @@ void userNETWORK_EventHandle(uint8_t networkResult)
 	case NETWORK_OUT_NETWORK:
 		if(networkReady)
 		{
-			toggleLed(LED1,ledPink,3,300,300);
+			toggleLed(LED1,ledRed,4,200,300);
 			systemState = REBOOT_STATE;
 			emberEventControlSetDelayMS(mainStateEventControl,3000);
 		}
@@ -189,17 +194,6 @@ void userButton_PressAndHoldEventHandle(uint8_t button, uint8_t pressAndHoldEven
 		case press_5:
 			emberAfCorePrintln("press_5!!!");
 			choose_Setting(pressAndHoldEvent);
-			if(emberNetworkState() == EMBER_NO_NETWORK) // đảm bảo thiết bị không vào mạng vẫn có thể reboot bình thường
-			{
-				toggleLed(LED1,ledRed,3,300,300);
-				systemState = REBOOT_STATE;
-				emberEventControlSetDelayMS(mainStateEventControl,3000);
-			}
-			if(systemState == IDLE_STATE)
-			{
-				NETWORK_Leave();
-//				emberSendZigDevRequest();
-			}
 			break;
 		case unknown:
 			break;
@@ -233,8 +227,13 @@ void userButton_HoldingEventHandle(uint8_t button, BUTTON_Event_t holdingEvent)
 			break;
 		case hold_10s:
 			emberAfCorePrintln("hold_10s!!!");
-			systemState = SETTING_STATE;
-			emberEventControlSetActive(mainStateEventControl);
+			if(emberNetworkState() == EMBER_NO_NETWORK) // đảm bảo thiết bị không vào mạng vẫn có thể reboot bình thường
+			{
+				toggleLed(LED1,ledRed,4,200,300);
+				systemState = REBOOT_STATE;
+				emberEventControlSetDelayMS(mainStateEventControl,3000);
+			}
+				NETWORK_Leave();
 			break;
 		case unknown:
 			break;
@@ -261,28 +260,34 @@ void choose_Setting(BUTTON_Event_t button)
 		if(button == press_1)
 		{
 			switch_config = SWITCH_1;
+			toggleLed(LED1,ledPink,1,300,300);
 		}
 		else if(button == press_2){
 			switch_config = SWITCH_2;
+			toggleLed(LED1,ledPink,2,300,300);
 		}
 		emberAfCorePrintln("SWITCH_%d!!!",switch_config+1);
-		systemState = CHOOSE_MODE_SETTING_STATE;
+		systemState = CHOOSE_FEATURES_SETTING;
 		emberEventControlSetActive(mainStateEventControl);
 		break;
-	case CHOOSE_MODE_SETTING_STATE:
+	case CHOOSE_FEATURES_SETTING:
 		if(button == press_1)
 		{
 			systemState = OUTPUT_MODE_SETTING_STATE;
+			toggleLed(LED1,ledPink,1,300,300);
 		}
 		else if(button == press_2){
 			systemState = INPUT_MODE_SETTING_STATE;
+			toggleLed(LED1,ledPink,2,300,300);
 		}
 		else if(button == press_3){
 			// binding using
 			systemState = BINDING_MODE;
+			toggleLed(LED1,ledPink,3,300,300);
 		}
 		else if(button == press_4){
 			systemState = OUTPUT_SET_WAIT_TIME;
+			toggleLed(LED1,ledPink,4,300,300);
 		}
 		emberAfCorePrintln("systemState = %d!!!",systemState);
 		emberEventControlSetActive(mainStateEventControl);
@@ -322,22 +327,27 @@ void process_Setting(BUTTON_Event_t number_Button)
 			{
 			case press_1:
 				output_ModeSet(switch_config,output_default);
+				toggleLed(LED1,ledPink,1,300,300);
 				emberAfCorePrintln("output_default!!!");
 				break;
 			case press_2:
 				output_ModeSet(switch_config,autoON);
+				toggleLed(LED1,ledPink,2,300,300);
 				emberAfCorePrintln("autoON!!!");
 				break;
 			case press_3:
 				output_ModeSet(switch_config,autoOFF);
+				toggleLed(LED1,ledPink,3,300,300);
 				emberAfCorePrintln("autoOFF!!!");
 				break;
 			case press_4:
 				output_ModeSet(switch_config,delayON);
+				toggleLed(LED1,ledPink,4,300,300);
 				emberAfCorePrintln("delayON!!!");
 				break;
 			case press_5:
 				output_ModeSet(switch_config,delayOFF);
+				toggleLed(LED1,ledPink,5,300,300);
 				emberAfCorePrintln("delayOFF!!!");
 				break;
 			default:
@@ -349,14 +359,17 @@ void process_Setting(BUTTON_Event_t number_Button)
 			{
 			case press_1:
 				input_ModeSet(switch_config,ToggleSwitch);
+				toggleLed(LED1,ledPink,1,300,300);
 				emberAfCorePrintln("ToggleSwitch!!!");
 				break;
 			case press_2:
 				input_ModeSet(switch_config,AnyChange);
+				toggleLed(LED1,ledPink,2,300,300);
 				emberAfCorePrintln("AnyChange!!!");
 				break;
 			case press_3:
 				input_ModeSet(switch_config,MomentarySwitch);
+				toggleLed(LED1,ledPink,3,300,300);
 				emberAfCorePrintln("MomentarySwitch!!!");
 				break;
 			default:
@@ -368,14 +381,17 @@ void process_Setting(BUTTON_Event_t number_Button)
 			{
 			case press_1:
 				output_SetTime(switch_config,5000);
+				toggleLed(LED1,ledPink,1,300,300);
 				emberAfCorePrintln("RELAY %d output_SetTime = %d!!!",switch_config+1,5000);
 				break;
 			case press_2:
 				output_SetTime(switch_config,10000);
+				toggleLed(LED1,ledPink,2,300,300);
 				emberAfCorePrintln("RELAY %d output_SetTime = %d!!!",switch_config+1,10000);
 				break;
 			case press_3:
 				output_SetTime(switch_config,15000);
+				toggleLed(LED1,ledPink,3,300,300);
 				emberAfCorePrintln("RELAY %d output_SetTime = %d!!!",switch_config+1,15000);
 				break;
 			default:
@@ -394,6 +410,7 @@ void process_Setting(BUTTON_Event_t number_Button)
 				{
 					(void)emberAfPluginFindAndBindTargetStart(2);
 				}
+				toggleLed(LED1,ledPink,1,200,300);
 				break;
 			case press_2://find target
 				if(switch_config == SWITCH_1)
@@ -404,9 +421,11 @@ void process_Setting(BUTTON_Event_t number_Button)
 				{
 					(void)emberAfPluginFindAndBindInitiatorStart(2);
 				}
+				toggleLed(LED1,ledPink,2,200,300);
 				break;
 			case press_3: // clear binding table
 				emberClearBindingTable();
+				toggleLed(LED1,ledPink,3,200,300);
 				break;
 			default:
 				break;

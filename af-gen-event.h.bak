@@ -20,6 +20,7 @@
   extern EmberEventControl emberAfPluginReportingTickEventControl; \
   extern EmberEventControl emberAfPluginScanDispatchScanEventControl; \
   extern EmberEventControl emberAfPluginUpdateTcLinkKeyBeginTcLinkKeyUpdateEventControl; \
+  extern EmberEventControl inputScanEventControl; \
   extern EmberEventControl joinNetworkEventControl; \
   extern EmberEventControl led1ToggleEventControl; \
   extern EmberEventControl mainStateEventControl; \
@@ -35,6 +36,7 @@
   extern void emberAfPluginReportingTickEventHandler(void); \
   extern void emberAfPluginScanDispatchScanEventHandler(void); \
   extern void emberAfPluginUpdateTcLinkKeyBeginTcLinkKeyUpdateEventHandler(void); \
+  extern void inputScanEventHandle(void); \
   extern void joinNetworkEventHandle(void); \
   extern void led1ToggleEventHandle(void); \
   extern void mainStateEventHandle(void); \
@@ -65,6 +67,7 @@
   { &emberAfPluginReportingTickEventControl, emberAfPluginReportingTickEventHandler }, \
   { &emberAfPluginScanDispatchScanEventControl, emberAfPluginScanDispatchScanEventHandler }, \
   { &emberAfPluginUpdateTcLinkKeyBeginTcLinkKeyUpdateEventControl, emberAfPluginUpdateTcLinkKeyBeginTcLinkKeyUpdateEventHandler }, \
+  { &inputScanEventControl, inputScanEventHandle }, \
   { &joinNetworkEventControl, joinNetworkEventHandle }, \
   { &led1ToggleEventControl, led1ToggleEventHandle }, \
   { &mainStateEventControl, mainStateEventHandle }, \
@@ -85,12 +88,13 @@
   "Reporting Plugin Tick",  \
   "Scan Dispatch Plugin Scan",  \
   "Update TC Link Key Plugin BeginTcLinkKeyUpdate",  \
+  "Event data",  \
   "Join network event control",  \
   "Led1 toggle event control",  \
   "Main state event control",  \
   "Relay1 toggle event control",  \
   "Relay2 toggle event control",  \
-  "Event data",  \
+  "Signal event control",  \
 
 
 // The length of the event context table used to track and retrieve cluster events
